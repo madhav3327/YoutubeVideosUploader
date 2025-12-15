@@ -7,5 +7,14 @@
     "username": "admin",
     "passHash": "58a5179230ee0cea33ffb51043dbf45087a667d5683838807e2730f28f5d9d72"
   },
-  "videos": []
+  "videos": [
+    {
+      "id": "c3fc3a64-d3a2-457c-83d7-6dce5aca2c7a",
+      "title": "Basics for Programing",
+      "youtubeId": "zD2E-EO4A7g",
+      "category": "Java",
+      "desc": "Understand this basics",
+      "createdAt": "2025-12-15T18:05:26.825Z"
+    }
+  ]
 }
