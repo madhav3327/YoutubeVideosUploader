@@ -1,0 +1,11 @@
+{
+  "channel": {
+    "name": "MadhavVideos",
+    "intro": "Hey! I’m Madhav 👋 This is my private video hub."
+  },
+  "admin": {
+    "username": "admin",
+    "passHash": "58a5179230ee0cea33ffb51043dbf45087a667d5683838807e2730f28f5d9d72"
+  },
+  "videos": []
+}

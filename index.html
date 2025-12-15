@@ -3,421 +3,440 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Madhav • Video Portal</title>
+  <title>MadhavVideos</title>
   <style>
-    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
-    body { margin: 0; background: #0b1220; color: #e8eefc; }
-    .nav { display:flex; justify-content:space-between; align-items:center; padding:14px 18px; position:sticky; top:0; background: rgba(11,18,32,.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,.08); }
-    .brand { font-weight: 700; letter-spacing: .3px; }
-    .btn { cursor:pointer; border:1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.06); color:#e8eefc; padding:8px 12px; border-radius:12px; }
-    .btn:hover { background: rgba(255,255,255,.10); }
-    .wrap { max-width: 1050px; margin: 0 auto; padding: 18px; }
-    .hero { display:flex; gap:16px; align-items:flex-start; flex-wrap: wrap; padding: 18px; border:1px solid rgba(255,255,255,.10); border-radius: 18px; background: rgba(255,255,255,.04); }
-    .hero h1 { margin:0; font-size: 22px; }
-    .hero p { margin:8px 0 0; opacity:.9; line-height: 1.45; }
-    .grid { margin-top: 16px; display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(2, 1fr);} }
-    @media (max-width: 520px){ .grid{ grid-template-columns: 1fr;} }
-    .card { border:1px solid rgba(255,255,255,.10); border-radius: 16px; padding: 14px; background: rgba(255,255,255,.03); cursor:pointer; }
-    .card:hover{ background: rgba(255,255,255,.06); }
-    .muted { opacity:.75; font-size: 13px; }
-    .row { display:flex; gap:10px; align-items:center; flex-wrap: wrap; margin-top: 14px; }
-    input, select, textarea {
-      width: 100%; box-sizing: border-box; padding: 10px 12px;
-      border-radius: 12px; border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06); color: #e8eefc;
-      outline: none;
-    }
-    textarea { min-height: 90px; resize: vertical; }
-    .list { margin-top: 14px; display:grid; gap: 12px; }
-    .item { border:1px solid rgba(255,255,255,.10); border-radius: 16px; padding: 14px; background: rgba(255,255,255,.03); display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-    .item h3 { margin:0 0 6px; font-size: 16px; }
-    .pill { font-size: 12px; opacity:.85; padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); }
-    .modalOverlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,.55);
-      display:none; align-items:center; justify-content:center; padding: 18px;
-    }
-    .modal {
-      width: min(520px, 100%); background: #0f1a2f;
-      border: 1px solid rgba(255,255,255,.12); border-radius: 18px; padding: 16px;
-      box-shadow: 0 16px 50px rgba(0,0,0,.45);
-    }
-    .modalHeader { display:flex; justify-content:space-between; align-items:center; gap:12px; }
-    .modalHeader h2 { margin:0; font-size: 18px; }
-    .close { cursor:pointer; font-size: 20px; opacity:.8; }
-    .close:hover { opacity: 1; }
-    .danger { color: #ffb4b4; font-size: 13px; margin-top: 8px; display:none; }
+    :root{--bg:#0f0f0f;--panel:#181818;--panel2:#1f1f1f;--text:#f1f1f1;--muted:#aaaaaa;--border:#2a2a2a;--chip:#272727;--chipActive:#3f3f3f;--shadow:0 12px 40px rgba(0,0,0,.45)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+    @media (max-width:920px){.app{grid-template-columns:1fr}.sidebar{display:none}}
+    .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(15,15,15,.94);border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+    .brand{display:flex;align-items:center;gap:10px;min-width:220px}
+    .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#ff3d3d,#ff8a00);display:grid;place-items:center;font-weight:900}
+    .brandTitle{font-weight:800;letter-spacing:.2px}
+    .searchWrap{flex:1;display:flex;justify-content:center}
+    .search{width:min(720px,100%);display:flex;align-items:center;background:#121212;border:1px solid var(--border);border-radius:999px;overflow:hidden}
+    .search input{flex:1;padding:10px 14px;border:none;outline:none;background:transparent;color:var(--text);font-size:14px}
+    .search button{border:none;background:var(--panel2);color:var(--text);padding:10px 14px;cursor:pointer}
+    .rightActions{display:flex;align-items:center;gap:10px;min-width:220px;justify-content:flex-end}
+    .iconBtn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:8px 10px;border-radius:999px;cursor:pointer;font-size:13px}
+    .iconBtn:hover{background:#262626}
+    .sidebar{position:sticky;top:0;height:100vh;border-right:1px solid var(--border);background:var(--bg);padding:12px 10px}
+    .navTitle{color:var(--muted);font-size:12px;margin:16px 10px 8px}
+    .navItem{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer}
+    .navItem:hover{background:#1a1a1a}
+    .navItem small{color:var(--muted)}
+    .main{padding:14px}
+    .introCard{border:1px solid var(--border);background:var(--panel);border-radius:16px;padding:14px;display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+    .introCard h1{margin:0;font-size:18px}
+    .introCard p{margin:8px 0 0;color:var(--muted);line-height:1.45}
+    .chips{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;position:sticky;top:58px;z-index:20;padding:10px 0;background:linear-gradient(to bottom,rgba(15,15,15,.95),rgba(15,15,15,.75),rgba(15,15,15,0));backdrop-filter:blur(10px)}
+    .chip{border:1px solid var(--border);background:var(--chip);padding:8px 12px;border-radius:999px;font-size:13px;cursor:pointer;user-select:none}
+    .chip:hover{background:#2f2f2f}
+    .chip.active{background:var(--chipActive)}
+    .grid{margin-top:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    @media (max-width:1200px){.grid{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:540px){.grid{grid-template-columns:1fr}}
+    .videoCard{cursor:pointer}
+    .thumb{width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#101010;position:relative}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .duration{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.75);padding:2px 6px;border-radius:6px;font-size:12px}
+    .meta{display:flex;gap:10px;margin-top:10px}
+    .avatar{width:36px;height:36px;border-radius:999px;background:linear-gradient(135deg,#3aa0ff,#9b59ff);display:grid;place-items:center;font-weight:900;font-size:12px;flex:0 0 auto}
+    .meta h3{margin:0;font-size:14px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .meta .sub{margin-top:6px;color:var(--muted);font-size:12px}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}
+    .modal{width:min(980px,100%);background:#121212;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+    .modalTop{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#141414;border-bottom:1px solid var(--border);gap:12px}
+    .close{cursor:pointer;border:1px solid var(--border);background:#1f1f1f;padding:6px 10px;border-radius:999px}
+    .playerWrap{position:relative;padding-top:56.25%}
+    .playerWrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .modalBody{padding:12px}
+    .modalBody p{margin:8px 0 0;color:var(--muted);white-space:pre-wrap}
+    .sheet{width:min(720px,100%);background:#121212;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:14px}
+    .sheet h2{margin:0;font-size:16px}
+    .field{margin-top:10px;display:grid;gap:8px}
+    input,textarea{width:100%;border:1px solid var(--border);background:#0f0f0f;color:var(--text);border-radius:12px;padding:10px 12px;outline:none}
+    textarea{min-height:110px;resize:vertical}
+    .err{display:none;color:#ffb4b4;font-size:12px;margin-top:6px}
+    .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+    .primary{border:none;background:#ff3d3d;color:#111;padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:800}
+    .secondary{border:1px solid var(--border);background:#1f1f1f;color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer}
+    .smallNote{margin-top:10px;color:var(--muted);font-size:12px}
+    pre{background:#0b0b0b;border:1px solid var(--border);padding:10px;border-radius:12px;overflow:auto;max-height:280px}
   </style>
 </head>
+
 <body>
-  <div class="nav">
-    <div class="brand">🎥 Madhav • Video Portal</div>
-    <div class="row" style="margin:0">
-      <button class="btn" id="adminBtn">Admin</button>
-    </div>
-  </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="navItem" onclick="setCategory('All')"><div>🏠</div><div><div style="font-weight:700">Home</div><small>All videos</small></div></div>
+      <div class="navTitle">Quick</div>
+      <div class="navItem" onclick="openAdminLogin()"><div>🔒</div><div>Admin</div></div>
+      <div class="navTitle">About</div>
+      <div class="navItem" style="cursor:default;"><div>👤</div><div><div style="font-weight:700">Madhav</div><small>Video hub</small></div></div>
+    </aside>
 
-  <div class="wrap">
-    <div class="hero">
-      <div style="flex:1; min-width: 260px;">
-        <h1>Hey! I’m Madhav 👋</h1>
-        <p class="muted">
-          This is my private video hub. I upload videos by category (Java, AWS, AI, Projects, etc.).
-          Pick a category below to browse.
-        </p>
-      </div>
-      <div style="min-width: 260px; flex:1;">
-        <div class="row" style="margin-top:0;">
-          <input id="searchInput" placeholder="Search videos (title/description)..." />
-          <select id="sortSelect" style="max-width: 220px;">
-            <option value="new">Newest first</option>
-            <option value="old">Oldest first</option>
-            <option value="az">Title A → Z</option>
-          </select>
+    <div>
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo">MV</div>
+          <div>
+            <div class="brandTitle" id="brandName">MadhavVideos</div>
+            <div style="color:var(--muted);font-size:12px;">Repo-based videos.json</div>
+          </div>
         </div>
-        <div class="muted" id="statusLine" style="margin-top:8px;"></div>
-      </div>
+
+        <div class="searchWrap">
+          <div class="search">
+            <input id="searchInput" placeholder="Search" />
+            <button id="searchBtn" title="Search">🔍</button>
+          </div>
+        </div>
+
+        <div class="rightActions">
+          <button class="iconBtn" onclick="openAdminLogin()">Admin</button>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="introCard">
+          <div style="flex:1;min-width:260px;">
+            <h1 id="introTitle">Hey! I’m Madhav 👋</h1>
+            <p id="introText">Loading…</p>
+          </div>
+          <div style="min-width:240px;">
+            <div style="color:var(--muted);font-size:12px;">Showing</div>
+            <div id="statusLine" style="margin-top:4px;font-weight:800;">0 videos</div>
+            <div class="smallNote">Videos are read from <b>videos.json</b> in this repo.</div>
+          </div>
+        </div>
+
+        <div class="chips" id="chips"></div>
+        <div class="grid" id="grid"></div>
+      </main>
     </div>
-
-    <div class="grid" id="categoryGrid"></div>
-
-    <div class="row">
-      <div class="pill" id="activeCategoryPill">All</div>
-      <button class="btn" id="clearCategoryBtn">Clear</button>
-      <button class="btn" id="resetLocalBtn" title="Deletes only the videos stored in this browser">Reset local videos</button>
-    </div>
-
-    <div class="list" id="videoList"></div>
   </div>
 
-  <!-- Login modal -->
-  <div class="modalOverlay" id="loginOverlay">
+  <!-- Player -->
+  <div class="overlay" id="playerOverlay">
     <div class="modal">
-      <div class="modalHeader">
-        <h2>Admin Login</h2>
-        <div class="close" data-close="loginOverlay">✕</div>
+      <div class="modalTop">
+        <strong id="playerTitle">Watch</strong>
+        <div class="close" onclick="closeOverlay('playerOverlay')">✕</div>
       </div>
-      <div style="margin-top:12px; display:grid; gap:10px;">
+      <div class="playerWrap">
+        <iframe id="playerFrame" src="" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+      <div class="modalBody">
+        <p id="playerDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Login -->
+  <div class="overlay" id="loginOverlay">
+    <div class="sheet">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <h2>Admin Login</h2>
+        <div class="close" onclick="closeOverlay('loginOverlay')">✕</div>
+      </div>
+      <div class="field">
         <input id="adminUser" placeholder="Username" />
         <input id="adminPass" type="password" placeholder="Password" />
-        <button class="btn" id="loginSubmit">Login</button>
-        <div class="danger" id="loginError">Wrong username/password.</div>
-        <div class="muted">Note: This is a static site, so this login is only basic protection.</div>
+        <div class="err" id="loginErr">Wrong username/password.</div>
+        <div class="row">
+          <button class="primary" onclick="submitLogin()">Login</button>
+          <button class="secondary" onclick="closeOverlay('loginOverlay')">Cancel</button>
+        </div>
+        <div class="smallNote">Static-site note: this is convenience-only.</div>
       </div>
     </div>
   </div>
 
-  <!-- Add video modal -->
-  <div class="modalOverlay" id="addOverlay">
-    <div class="modal">
-      <div class="modalHeader">
-        <h2>Add New Video</h2>
-        <div class="close" data-close="addOverlay">✕</div>
+  <!-- Add Video + Export JSON -->
+  <div class="overlay" id="addOverlay">
+    <div class="sheet">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <h2>Add Video (updates JSON)</h2>
+        <div class="close" onclick="closeOverlay('addOverlay')">✕</div>
       </div>
-      <div style="margin-top:12px; display:grid; gap:10px;">
-        <input id="vLink" placeholder="YouTube link (or video id)" />
-        <input id="vCategory" placeholder="Category (e.g., Java, AWS, AI)" />
-        <textarea id="vDesc" placeholder="Short description"></textarea>
-        <input id="vTitle" placeholder="Title (optional, else auto)"/>
-        <button class="btn" id="addSubmit">Save</button>
-        <div class="danger" id="addError">Please enter at least link + category.</div>
-        <div class="muted">Saved into this browser (localStorage). To share across devices you’ll need JSON + Git commit.</div>
+
+      <div class="field">
+        <input id="vLink" placeholder="YouTube link or video ID" />
+        <input id="vTitle" placeholder="Title" />
+        <input id="vCategory" placeholder="Category (Java, AWS, AI...)" />
+        <textarea id="vDesc" placeholder="Description"></textarea>
+
+        <div class="err" id="addErr">Please provide at least link + category.</div>
+
+        <div class="row">
+          <button class="primary" onclick="addVideoToJson()">Generate Updated videos.json</button>
+          <button class="secondary" onclick="closeOverlay('addOverlay')">Close</button>
+        </div>
+
+        <div id="exportBlock" style="display:none;">
+          <div class="smallNote">Copy this and paste into your repo’s <b>videos.json</b>, then commit.</div>
+          <pre id="exportJson"></pre>
+          <div class="row">
+            <button class="primary" onclick="copyExport()">Copy JSON</button>
+            <button class="secondary" onclick="downloadExport()">Download videos.json</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
 <script>
-  // =========================
-  // 1) CONFIG (change these)
-  // =========================
-  //ofcourse you can get my details here and misuse this but remember i am trying to do this to help people..
-  const ADMIN_USERNAME = "admin";          // change
-  const ADMIN_PASSWORD = "1234";           // change
-  const STORAGE_KEY = "madhav_video_portal_videos_v1";
 
-  // Optional starter videos (these load first, then localStorage adds more)
-  const STARTER_VIDEOS = [
-    // Example:
-    // { id: crypto.randomUUID(), title:"Intro to Java Streams", youtubeId:"dQw4w9WgXcQ", category:"Java", desc:"Streams basics + examples", createdAt: "2025-12-15T10:00:00Z" }
-  ];
+  async function sha256(text){
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest("SHA-256", buf);
+  return [...new Uint8Array(hash)]
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+let admin = null;   // will be loaded from videos.json
+  // =========================
+  // CONFIG (change these)
+  // =========================
+  const ADMIN_USERNAME = "admin";
+  const ADMIN_PASSWORD = "1234";
+  const DATA_URL = "videos.json"; // repo file
+
+  // loaded from repo
+  let channel = { name: "MadhavVideos", intro: "" };
+  let videos = [];
+  let activeCategory = "All";
 
   // =========================
-  // 2) Helpers
+  // Helpers
   // =========================
   function extractYouTubeId(input) {
     if (!input) return "";
     const s = input.trim();
-    // If user pasted an ID directly
     if (/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
-
-    // Try URL patterns
-    const patterns = [
-      /v=([a-zA-Z0-9_-]{11})/,
-      /youtu\.be\/([a-zA-Z0-9_-]{11})/,
-      /embed\/([a-zA-Z0-9_-]{11})/,
-      /shorts\/([a-zA-Z0-9_-]{11})/
-    ];
-    for (const p of patterns) {
-      const m = s.match(p);
-      if (m && m[1]) return m[1];
-    }
+    const patterns = [/v=([a-zA-Z0-9_-]{11})/, /youtu\.be\/([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/, /shorts\/([a-zA-Z0-9_-]{11})/];
+    for (const p of patterns) { const m = s.match(p); if (m && m[1]) return m[1]; }
     return "";
   }
-
-  function loadLocalVideos() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
   }
-  function saveLocalVideos(videos) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(videos));
+  function openOverlay(id){ document.getElementById(id).style.display = "flex"; }
+  function closeOverlay(id){
+    document.getElementById(id).style.display = "none";
+    if (id === "playerOverlay") document.getElementById("playerFrame").src = "";
   }
+  ["playerOverlay","loginOverlay","addOverlay"].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener("click", (e)=> { if (e.target === el) closeOverlay(id); });
+  });
 
-  // Merge starter + local (local last)
-  let videos = [...STARTER_VIDEOS, ...loadLocalVideos()];
-
-  // UI state
-  let activeCategory = "All";
-
-  // =========================
-  // 3) Render
-  // =========================
-  function getCategories() {
-    const set = new Set(videos.map(v => (v.category || "").trim()).filter(Boolean));
+  function getCategories(){
+    const set = new Set(videos.map(v => (v.category||"").trim()).filter(Boolean));
     return ["All", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
   }
 
-  function filteredVideos() {
-    const q = document.getElementById("searchInput").value.trim().toLowerCase();
+  function filterVideos(){
+    const q = (document.getElementById("searchInput").value || "").trim().toLowerCase();
     let list = [...videos];
-
     if (activeCategory !== "All") {
-      list = list.filter(v => (v.category || "").toLowerCase() === activeCategory.toLowerCase());
+      list = list.filter(v => (v.category||"").toLowerCase() === activeCategory.toLowerCase());
     }
     if (q) {
       list = list.filter(v =>
-        (v.title || "").toLowerCase().includes(q) ||
-        (v.desc || "").toLowerCase().includes(q) ||
-        (v.category || "").toLowerCase().includes(q)
+        (v.title||"").toLowerCase().includes(q) ||
+        (v.desc||"").toLowerCase().includes(q) ||
+        (v.category||"").toLowerCase().includes(q)
       );
     }
-
-    const sort = document.getElementById("sortSelect").value;
-    if (sort === "new") list.sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt));
-    if (sort === "old") list.sort((a,b)=> new Date(a.createdAt) - new Date(b.createdAt));
-    if (sort === "az") list.sort((a,b)=> (a.title||"").localeCompare(b.title||""));
-
+    list.sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt));
     return list;
   }
 
-  function renderCategories() {
-    const grid = document.getElementById("categoryGrid");
-    grid.innerHTML = "";
-    const cats = getCategories();
-
-    cats.filter(c => c !== "All").forEach(cat => {
-      const count = videos.filter(v => (v.category||"").toLowerCase() === cat.toLowerCase()).length;
-      const div = document.createElement("div");
-      div.className = "card";
-      div.innerHTML = `
-        <div style="font-weight:700; margin-bottom:6px;">${cat}</div>
-        <div class="muted">${count} video${count===1?"":"s"}</div>
-      `;
-      div.onclick = () => { activeCategory = cat; renderAll(); };
-      grid.appendChild(div);
-    });
-
-    // If no categories
-    if (cats.length === 1) {
-      grid.innerHTML = `<div class="muted">No videos yet. Click Admin → add your first video.</div>`;
+  // =========================
+  // Render
+  // =========================
+  function renderChips(){
+    const chips = document.getElementById("chips");
+    chips.innerHTML = "";
+    for (const cat of getCategories()){
+      const el = document.createElement("div");
+      el.className = "chip" + (cat === activeCategory ? " active" : "");
+      el.textContent = cat;
+      el.onclick = () => setCategory(cat);
+      chips.appendChild(el);
     }
   }
 
-  function renderList() {
-    const listDiv = document.getElementById("videoList");
-    const pill = document.getElementById("activeCategoryPill");
-    const status = document.getElementById("statusLine");
-
-    pill.textContent = activeCategory;
-    const list = filteredVideos();
-    status.textContent = `${list.length} video${list.length===1?"":"s"} showing`;
-
-    listDiv.innerHTML = "";
-    list.forEach(v => {
-      const el = document.createElement("div");
-      el.className = "item";
-
-      const yt = v.youtubeId || "";
-      const thumb = yt ? `https://img.youtube.com/vi/${yt}/hqdefault.jpg` : "";
-      const when = v.createdAt ? new Date(v.createdAt).toLocaleString() : "";
-
-      el.innerHTML = `
-        <div style="display:flex; gap:12px; align-items:flex-start;">
-          ${thumb ? `<img src="${thumb}" alt="" style="width:140px; height:78px; object-fit:cover; border-radius:12px; border:1px solid rgba(255,255,255,.10);" />` : ""}
-          <div>
-            <h3>${v.title || "Untitled video"}</h3>
-            <div class="muted">${v.desc || ""}</div>
-            <div class="row" style="margin-top:10px;">
-              <span class="pill">${v.category || "Uncategorized"}</span>
-              <span class="muted">${when}</span>
-            </div>
-          </div>
+  function renderGrid(){
+    const grid = document.getElementById("grid");
+    const list = filterVideos();
+    document.getElementById("statusLine").textContent = `${list.length} video${list.length===1?"":"s"}`;
+    grid.innerHTML = "";
+    if (!list.length){
+      grid.innerHTML = `<div style="color:var(--muted)">No videos found. (Admin: add one → commit videos.json)</div>`;
+      return;
+    }
+    for (const v of list){
+      const thumb = v.youtubeId ? `https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg` : "";
+      const card = document.createElement("div");
+      card.className = "videoCard";
+      card.innerHTML = `
+        <div class="thumb">
+          ${thumb ? `<img src="${thumb}" alt="">` : ""}
+          <div class="duration">▶</div>
         </div>
-        <div style="display:flex; flex-direction:column; gap:8px; min-width:120px;">
-          <button class="btn" data-watch="${v.id}">Watch</button>
+        <div class="meta">
+          <div class="avatar">MV</div>
+          <div>
+            <h3>${escapeHtml(v.title || "Untitled")}</h3>
+            <div class="sub">${escapeHtml(channel.name)} • ${escapeHtml(v.category || "Uncategorized")}</div>
+            <div class="sub">${new Date(v.createdAt).toLocaleDateString()}</div>
+          </div>
         </div>
       `;
-
-      listDiv.appendChild(el);
-    });
-
-    // Attach watch handlers
-    listDiv.querySelectorAll("[data-watch]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-watch");
-        const vid = videos.find(x => x.id === id);
-        if (!vid?.youtubeId) return alert("Missing YouTube ID/link.");
-        openPlayer(vid);
-      });
-    });
+      card.onclick = () => openPlayer(v);
+      grid.appendChild(card);
+    }
   }
 
-  function openPlayer(v) {
-    const overlay = document.createElement("div");
-    overlay.className = "modalOverlay";
-    overlay.style.display = "flex";
-    overlay.innerHTML = `
-      <div class="modal" style="width:min(900px, 100%);">
-        <div class="modalHeader">
-          <h2>${v.title || "Watch"}</h2>
-          <div class="close">✕</div>
-        </div>
-        <div style="margin-top:12px;">
-          <div style="position:relative; padding-top:56.25%; border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,.12);">
-            <iframe
-              src="https://www.youtube.com/embed/${v.youtubeId}"
-              title="YouTube video player"
-              style="position:absolute; inset:0; width:100%; height:100%; border:0;"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <div class="muted" style="margin-top:10px;">${v.desc || ""}</div>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(overlay);
-    overlay.querySelector(".close").onclick = () => overlay.remove();
-    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-  }
+  function setCategory(cat){ activeCategory = cat; renderAll(); }
+  function renderAll(){ renderChips(); renderGrid(); }
 
-  function renderAll() {
-    renderCategories();
-    renderList();
+  // =========================
+  // Player
+  // =========================
+  function openPlayer(v){
+    if (!v.youtubeId) return alert("Missing YouTube ID.");
+    document.getElementById("playerTitle").textContent = v.title || "Watch";
+    document.getElementById("playerDesc").textContent = v.desc || "";
+    document.getElementById("playerFrame").src = `https://www.youtube.com/embed/${v.youtubeId}`;
+    openOverlay("playerOverlay");
   }
 
   // =========================
-  // 4) Modals
+  // Admin
   // =========================
-  function openModal(id) { document.getElementById(id).style.display = "flex"; }
-  function closeModal(id) { document.getElementById(id).style.display = "none"; }
-
-  document.querySelectorAll("[data-close]").forEach(x => {
-    x.addEventListener("click", () => closeModal(x.getAttribute("data-close")));
-  });
-
-  document.getElementById("adminBtn").onclick = () => {
-    document.getElementById("loginError").style.display = "none";
+  function openAdminLogin(){
+    document.getElementById("loginErr").style.display = "none";
     document.getElementById("adminUser").value = "";
     document.getElementById("adminPass").value = "";
-    openModal("loginOverlay");
-  };
+    openOverlay("loginOverlay");
+  }
+  async function submitLogin(){
+  const u = document.getElementById("adminUser").value.trim();
+  const p = document.getElementById("adminPass").value.trim();
 
-  document.getElementById("loginSubmit").onclick = () => {
-    const u = document.getElementById("adminUser").value.trim();
-    const p = document.getElementById("adminPass").value.trim();
-    const ok = (u === ADMIN_USERNAME && p === ADMIN_PASSWORD);
+  if (!admin || !admin.username || !admin.passHash){
+    alert("Admin config missing in videos.json");
+    return;
+  }
 
-    if (!ok) {
-      document.getElementById("loginError").style.display = "block";
-      return;
-    }
-    closeModal("loginOverlay");
-    document.getElementById("addError").style.display = "none";
-    document.getElementById("vLink").value = "";
-    document.getElementById("vCategory").value = "";
-    document.getElementById("vDesc").value = "";
-    document.getElementById("vTitle").value = "";
-    openModal("addOverlay");
-  };
+  const inputHash = await sha256(p);
 
-  document.getElementById("addSubmit").onclick = () => {
+  if (u !== admin.username || inputHash !== admin.passHash){
+    document.getElementById("loginErr").style.display = "block";
+    return;
+  }
+
+  // success
+  closeOverlay("loginOverlay");
+  document.getElementById("addErr").style.display = "none";
+  document.getElementById("exportBlock").style.display = "none";
+  openOverlay("addOverlay");
+}
+
+  function addVideoToJson(){
     const link = document.getElementById("vLink").value.trim();
+    const title = document.getElementById("vTitle").value.trim();
     const category = document.getElementById("vCategory").value.trim();
     const desc = document.getElementById("vDesc").value.trim();
-    const title = document.getElementById("vTitle").value.trim();
 
-    if (!link || !category) {
-      document.getElementById("addError").style.display = "block";
+    if (!link || !category){
+      document.getElementById("addErr").style.display = "block";
+      document.getElementById("addErr").textContent = "Please provide at least link + category.";
       return;
     }
-
     const youtubeId = extractYouTubeId(link);
-    if (!youtubeId) {
-      document.getElementById("addError").style.display = "block";
-      document.getElementById("addError").textContent = "Could not detect YouTube video id from that link.";
+    if (!youtubeId){
+      document.getElementById("addErr").style.display = "block";
+      document.getElementById("addErr").textContent = "Could not detect YouTube video ID from that link.";
       return;
     }
 
-    const newVideo = {
+    // Add to in-memory list
+    videos.push({
       id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
       title: title || `Video • ${category}`,
       youtubeId,
       category,
       desc,
       createdAt: new Date().toISOString()
-    };
+    });
 
-    videos.push(newVideo);
+    // Generate updated JSON for repo
+    const updated = { channel, videos };
+    const pretty = JSON.stringify(updated, null, 2);
 
-    // persist ONLY the non-starter ones (simple approach: store everything except STARTER_VIDEOS length)
-    // If you don't use STARTER_VIDEOS, this stores all.
-    const localOnly = videos.slice(STARTER_VIDEOS.length);
-    saveLocalVideos(localOnly);
+    document.getElementById("exportJson").textContent = pretty;
+    document.getElementById("exportBlock").style.display = "block";
+    document.getElementById("addErr").style.display = "none";
 
-    closeModal("addOverlay");
-    activeCategory = category; // jump to category you added
+    // Update UI immediately (even before commit)
+    activeCategory = category;
     renderAll();
-  };
+  }
+
+  function copyExport(){
+    const text = document.getElementById("exportJson").textContent;
+    navigator.clipboard.writeText(text).then(()=>alert("Copied! Now paste into videos.json and commit."));
+  }
+  function downloadExport(){
+    const text = document.getElementById("exportJson").textContent;
+    const blob = new Blob([text], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "videos.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
 
   // =========================
-  // 5) Controls
+  // Load from repo
   // =========================
-  document.getElementById("searchInput").addEventListener("input", renderList);
-  document.getElementById("sortSelect").addEventListener("change", renderList);
+  async function loadData(){
+  try{
+    const res = await fetch(`${DATA_URL}?v=${Date.now()}`); // cache-bust
+    if (!res.ok) throw new Error("Failed to load videos.json");
 
-  document.getElementById("clearCategoryBtn").onclick = () => { activeCategory = "All"; renderAll(); };
+    const data = await res.json();
 
-  document.getElementById("resetLocalBtn").onclick = () => {
-    if (confirm("Delete videos saved in this browser? (Does not affect YouTube.)")) {
-      localStorage.removeItem(STORAGE_KEY);
-      videos = [...STARTER_VIDEOS];
-      activeCategory = "All";
-      renderAll();
-    }
-  };
+    channel = data.channel || channel;
+    videos = Array.isArray(data.videos) ? data.videos : [];
+    admin = data.admin || null;   // ✅ ADD THIS LINE
 
-  // Close modals by clicking outside
-  ["loginOverlay","addOverlay"].forEach(id => {
-    const o = document.getElementById(id);
-    o.addEventListener("click", (e) => { if (e.target === o) closeModal(id); });
-  });
+    document.getElementById("brandName").textContent =
+      channel.name || "MadhavVideos";
+    document.getElementById("introText").textContent =
+      channel.intro || "";
 
-  // First render
-  renderAll();
+    renderAll();
+  }catch(e){
+    document.getElementById("introText").textContent =
+      "Could not load videos.json. Make sure videos.json is in the repo root and valid JSON.";
+    renderAll();
+  }
+}
+
+  document.getElementById("searchInput").addEventListener("input", renderGrid);
+  document.getElementById("searchBtn").addEventListener("click", renderGrid);
+
+  loadData();
 </script>
 </body>
 </html>
